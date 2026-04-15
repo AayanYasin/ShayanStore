@@ -21,6 +21,23 @@ Response _corsResponse(Response response) {
   });
 }
 
+// Global Error Handler Middleware
+Middleware errorHandler() {
+  return (Handler innerHandler) {
+    return (Request request) async {
+      try {
+        return await innerHandler(request);
+      } catch (e, stack) {
+        print('Caught Backend Exception: $e\n$stack');
+        return Response.internalServerError(
+          body: jsonEncode({'error': 'Server Error: $e'}),
+          headers: {'Content-Type': 'application/json'}
+        );
+      }
+    };
+  };
+}
+
 // Middleware to handle CORS OPTIONS requests
 Middleware corsMiddleware() {
   return (Handler innerHandler) {
@@ -110,21 +127,29 @@ void main() async {
 
   // POST /order (Place an order)
   router.post('/order', (Request request) async {
-    final payload = await request.readAsString();
-    final data = jsonDecode(payload);
-    
-    final userId = data['user_id'];
-    final items = data['items']; // stringified JSON
-    final total = data['total'];
+    try {
+      final payload = await request.readAsString();
+      final data = jsonDecode(payload);
+      
+      final userId = data['user_id'];
+      final items = data['items']; // stringified JSON
+      final total = data['total'];
 
-    final conn = await MySqlConnection.connect(settings);
-    await conn.query(
-      'INSERT INTO orders (user_id, items, total, status) VALUES (?, ?, ?, ?)',
-      [userId, items, total, 'Pending']
-    );
-    await conn.close();
+      final conn = await MySqlConnection.connect(settings);
+      await conn.query(
+        'INSERT INTO orders (user_id, items, total, status) VALUES (?, ?, ?, ?)',
+        [userId, items, total, 'Pending']
+      );
+      await conn.close();
 
-    return Response.ok(jsonEncode({'message': 'Order placed successfully'}), headers: {'Content-Type': 'application/json'});
+      return Response.ok(jsonEncode({'message': 'Order placed successfully'}), headers: {'Content-Type': 'application/json'});
+    } catch (e, stack) {
+      print('Backend Error in /order: $e\n$stack');
+      return Response.internalServerError(
+        body: jsonEncode({'error': e.toString()}), 
+        headers: {'Content-Type': 'application/json'}
+      );
+    }
   });
 
   // GET /my_orders (Order history for a specific user)
@@ -206,6 +231,7 @@ void main() async {
   final handler = Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(corsMiddleware())
+      .addMiddleware(errorHandler())
       .addHandler(router.call);
 
   final server = await io.serve(handler, '0.0.0.0', 8080);

@@ -3,16 +3,18 @@
 A professional, full-stack E-Commerce prototype built for university presentation purposes. It features a completely custom-built Dart backend API and a highly interactive, modern Flutter frontend (compatible with Web and Android). 
 
 ## 🚀 Features
-- **Frontend App:** Built with Flutter, utilizing an ultra-modern UI, product carousels, expandable tiles, and sleek glass-morphism effects.
-- **Backend API:** Built entirely in Dart using the `shelf` and `shelf_router` frameworks. Completely handles raw CORS and RESTful API endpoints.
+- **Modern Frontend Architecture:** Built with Flutter, utilizing an ultra-modern, responsive mobile-first UI that scales gracefully to desktop. Features a premium Material Design 3 (M3) Purple theme.
+- **Dynamic Visuals:** Includes immersive product image carousels, expandable tiles, sleek glass-morphism effects, and flash-sale-oriented visual elements for high user engagement.
+- **Robust Cart & Checkout:** Enhanced cart state management with interactive product quantity controls (+/-), and a streamlined checkout navigation flow.
+- **Custom Backend API:** Built entirely in Dart using the `shelf` and `shelf_router` frameworks. Completely handles raw CORS and RESTful API endpoints.
 - **Relational Database:** Stores user authentication parameters, shipping addresses, live product inventories, and dynamic order tracking using MySQL.
-- **Authentication:** Live multi-state login and signup logic.
-- **Admin Dashboard:** A secure, password-protected backend panel (`admin123`) to view raw user orders, shipping addresses, and mark physical orders as completed.
+- **Authentication:** Live multi-state login and signup logic with phone and address capture.
+- **Admin Dashboard:** A secure, password-protected backend panel to view raw user orders, shipping addresses, and mark physical orders as completed.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend:** Flutter & Dart
+- **Frontend:** Flutter & Dart (Material Design 3)
 - **Backend Server:** Dart (`shelf`, `mysql1`)
 - **Database:** MySQL (XAMPP / PhpMyAdmin)
 - **Networking:** HTTP REST API (Dynamic routing for `localhost`/`10.0.2.2`)
@@ -66,7 +68,7 @@ The user-facing application built in Flutter.
 
 ## 👨‍💻 Usage Flow
 1. **User Sign Up:** Create an account with your Email, Phone Number, and Shipping Address.
-2. **Shopping:** Browse the 10 products, expand image carousels, and add items to your cart.
-3. **Checkout:** Click the shopping bag to manage quantities (+ / -) and finalize your order.
+2. **Shopping:** Browse the 10 products, expand image carousels, and interact with flash-sale items.
+3. **Checkout:** Add items to your cart, manage quantities (+ / -), and smoothly navigate to finalize your order.
 4. **Order History:** Use the sidebar drawer to view your pending orders.
 5. **Admin Processing:** Click the `Shield` icon on the login page and use the dummy master password (`admin123`) to view all user orders and mark them as fully completed.
